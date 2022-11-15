@@ -22,7 +22,7 @@ impl Game {
         while app.wait() {
             match r.recv() {
                 Some(..) => {
-                    self.terminal.print(">".to_owned() + &self.terminal.input.value());
+                    self.terminal.print("\n>".to_owned() + &self.terminal.input.value());
                     self.terminal.print("Response".to_string());
                     self.terminal.input.set_value("");
                 }

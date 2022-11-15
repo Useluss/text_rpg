@@ -1,6 +1,6 @@
 use fltk::{
     prelude::*, window::Window, 
-    enums::{Color, FrameType, Font, CallbackTrigger}, 
+    enums::{Color, FrameType, Font, CallbackTrigger, Align}, 
     input::Input, output::Output, 
     group::Row, 
     text::{TextDisplay, TextBuffer}, 
@@ -27,7 +27,8 @@ impl Terminal {
             window: Window::new(0, 0, WIDTH, HEIGHT, "My Window!"), input: Input::new(10, 425, WIDTH, 25, ""), 
             input_caret: Output::new(0, 425, 10, 25, ""), header: Row::new(0, 0, WIDTH, 25, ""), 
             header_info: vec![Output::default_fill(), Output::default_fill(), Output::default_fill()],
-            output_window: TextDisplay::new(0, 30, WIDTH, 400, ""), output_buffer: TextBuffer::default(),
+            // The weird sizing of output_window is to get rid of scrollbar
+            output_window: TextDisplay::new(0, 30, WIDTH + 2, 400, ""), output_buffer: TextBuffer::default(),
         }
     }
 
@@ -88,7 +89,9 @@ impl Terminal {
         self.output_window.set_text_color(Color::White);
         self.output_window.set_text_size(20);
         self.output_window.set_selection_color(Color::White);
-        self.output_window.scroll(1, 9);
+        // These lines help get rid of the scrollbar 
+        self.output_window.set_scrollbar_size(1);
+        self.output_window.set_scrollbar_align(Align::Top);
     }
 
     pub fn print(&mut self, text: String) {
