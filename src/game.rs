@@ -16,9 +16,15 @@ impl Game {
         let app = App::default();
         self.terminal.setup_window();
 
-        let (s, r) = app::channel::<String>();
+        self.on_enter(app);
+
+        app.run().unwrap();
+    }
+
+    fn on_enter(mut self, app: App) {
+        let (s, r) = app::channel::<()>();
         
-        self.terminal.input.emit(s, String::new()); 
+        self.terminal.input.emit(s, ());
         while app.wait() {
             match r.recv() {
                 Some(..) => {
@@ -30,7 +36,5 @@ impl Game {
             }
             std::thread::sleep(std::time::Duration::from_millis(16));
         }
-
-        app.run().unwrap();
     }
 }
