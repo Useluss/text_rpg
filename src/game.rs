@@ -1,15 +1,20 @@
-use fltk::{app::{App, self}, prelude::{WidgetExt, InputExt}};
+use fltk::{
+    app::{self, App},
+    prelude::{DisplayExt, InputExt, WidgetExt},
+};
 
 mod terminal;
 use self::terminal::Terminal;
 
 pub struct Game {
     terminal: Terminal,
-} 
+}
 
 impl Game {
     pub fn new() -> Game {
-        Game { terminal: Terminal::new() }
+        Game {
+            terminal: Terminal::new(),
+        }
     }
 
     pub fn run(mut self) {
@@ -23,12 +28,13 @@ impl Game {
 
     fn on_enter(mut self, app: App) {
         let (s, r) = app::channel::<()>();
-        
+
         self.terminal.input.emit(s, ());
         while app.wait() {
             match r.recv() {
                 Some(..) => {
-                    self.terminal.print("\n>".to_owned() + &self.terminal.input.value());
+                    self.terminal
+                        .print("\n>".to_owned() + &self.terminal.input.value());
                     self.terminal.print("Response".to_string());
                     self.terminal.input.set_value("");
                 }

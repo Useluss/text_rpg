@@ -1,9 +1,11 @@
 use fltk::{
-    prelude::*, window::Window, 
-    enums::{Color, FrameType, Font, CallbackTrigger, Align}, 
-    input::Input, output::Output, 
-    group::Row, 
-    text::{TextDisplay, TextBuffer}, 
+    enums::{Align, CallbackTrigger, Color, Font, FrameType},
+    group::Row,
+    input::Input,
+    output::Output,
+    prelude::*,
+    text::{TextBuffer, TextDisplay},
+    window::Window,
 };
 
 pub struct Terminal {
@@ -12,7 +14,7 @@ pub struct Terminal {
     input_caret: Output,
     header: Row,
     header_info: Vec<Output>,
-    output_window: TextDisplay,
+    pub output_window: TextDisplay,
     pub output_buffer: TextBuffer,
 }
 
@@ -23,12 +25,19 @@ impl Terminal {
     pub fn new() -> Terminal {
         let font = Font::load_font("fonts/console.ttf").unwrap();
         Font::set_font(Font::Helvetica, &font);
-        Terminal { 
-            window: Window::new(0, 0, WIDTH, HEIGHT, "My Window!"), input: Input::new(10, 425, WIDTH, 25, ""), 
-            input_caret: Output::new(0, 425, 10, 25, ""), header: Row::new(0, 0, WIDTH, 25, ""), 
-            header_info: vec![Output::default_fill(), Output::default_fill(), Output::default_fill()],
+        Terminal {
+            window: Window::new(0, 0, WIDTH, HEIGHT, "My Window!"),
+            input: Input::new(10, 425, WIDTH, 25, ""),
+            input_caret: Output::new(0, 425, 10, 25, ""),
+            header: Row::new(0, 0, WIDTH, 25, ""),
+            header_info: vec![
+                Output::default_fill(),
+                Output::default_fill(),
+                Output::default_fill(),
+            ],
             // The weird sizing of output_window is to get rid of scrollbar
-            output_window: TextDisplay::new(0, 30, WIDTH + 2, 400, ""), output_buffer: TextBuffer::default(),
+            output_window: TextDisplay::new(0, 30, WIDTH + 2, 400, ""),
+            output_buffer: TextBuffer::default(),
         }
     }
 
@@ -36,7 +45,7 @@ impl Terminal {
         self.setup_output();
         self.setup_header();
         self.setup_input();
-        
+
         self.window.set_color(Color::Black);
         self.window.end();
         self.window.show();
@@ -89,7 +98,7 @@ impl Terminal {
         self.output_window.set_text_color(Color::White);
         self.output_window.set_text_size(20);
         self.output_window.set_selection_color(Color::White);
-        // These lines help get rid of the scrollbar 
+        // These lines help get rid of the scrollbar
         self.output_window.set_scrollbar_size(1);
         self.output_window.set_scrollbar_align(Align::Top);
     }
