@@ -37,6 +37,8 @@ impl Game {
                         .print("\n>".to_owned() + &self.terminal.input.value());
                     self.terminal.print("Response".to_string());
                     self.terminal.input.set_value("");
+                    // Whacky number works somehow don't change!!!!!!!!!!!!!
+                    self.terminal.output_window.scroll(100000, 0);
                 }
                 None => (),
             }
