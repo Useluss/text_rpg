@@ -4,16 +4,21 @@ use fltk::{
 };
 
 mod terminal;
+mod command_processor;
 use self::terminal::Terminal;
 
-pub struct Game {
+pub struct Game<'a> {
     terminal: Terminal,
+    commands: Vec<&'a str>,
+    command_args: Vec<&'a str>
 }
 
-impl Game {
-    pub fn new() -> Game {
+impl Game<'_> {
+    pub fn new() -> Game<'static> {
         Game {
             terminal: Terminal::new(),
+            commands: vec!["help", "go"],
+            command_args: vec!["", "location"]
         }
     }
 
@@ -33,9 +38,11 @@ impl Game {
         while app.wait() {
             match r.recv() {
                 Some(..) => {
+                    let input = &self.terminal.input.value();
                     self.terminal
                         .print("\n>".to_owned() + &self.terminal.input.value());
-                    self.terminal.print("Response".to_string());
+                    let repsonse = command_processor::process_command(&input.to_string());
+                    self.terminal.print(repsonse);
                     self.terminal.input.set_value("");
                     // Whacky number works somehow don't change!!!!!!!!!!!!!
                     self.terminal.output_window.scroll(100000, 0);
