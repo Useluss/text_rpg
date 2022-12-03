@@ -13,15 +13,21 @@ pub fn process_command(input: &str) -> String {
     }
 
     match first_word {
+        // Location commands
         "go" => return go(second_word),
+        "n" | "north" => return go("North".to_string()),
+        "s" | "south" => return go("South".to_string()),
+        "e" | "east" => return go("east".to_string()),
+        "w" | "west" => return go("West".to_string()),
+
         "help" => return help(),
-        _ => return "unrecognized command".to_string()
+        _ => return "unrecognized command".to_string(),
     }
 }
 
 fn go(second_word: String) -> String {
     if second_word == "" {
-        return "Where?".to_string();        
+        return "Where?".to_string();
     }
 
     "You go ".to_string() + &second_word
