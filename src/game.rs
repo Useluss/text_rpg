@@ -3,14 +3,14 @@ use fltk::{
     prelude::{DisplayExt, InputExt, WidgetExt},
 };
 
-mod terminal;
 mod command_processor;
+mod terminal;
 use self::terminal::Terminal;
 
 pub struct Game<'a> {
     terminal: Terminal,
     commands: Vec<&'a str>,
-    command_args: Vec<&'a str>
+    command_args: Vec<&'a str>,
 }
 
 impl Game<'_> {
@@ -18,7 +18,7 @@ impl Game<'_> {
         Game {
             terminal: Terminal::new(),
             commands: vec!["help", "go"],
-            command_args: vec!["", "location"]
+            command_args: vec!["", "location"],
         }
     }
 
