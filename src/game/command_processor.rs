@@ -39,13 +39,6 @@ fn help() -> String {
 
     for i in 0..game.commands.len() {
         response.push_str(game.commands[i]);
-        if game.command_args[i] != "" {
-            response.push_str(" [");
-            response.push_str(game.command_args[i]);
-            response.push_str("], ");
-            continue;
-        }
-        response.push_str(game.command_args[i]);
         response.push_str(", ");
     }
 

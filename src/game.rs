@@ -10,15 +10,13 @@ use self::terminal::Terminal;
 pub struct Game<'a> {
     terminal: Terminal,
     commands: Vec<&'a str>,
-    command_args: Vec<&'a str>,
 }
 
 impl Game<'_> {
     pub fn new() -> Game<'static> {
         Game {
             terminal: Terminal::new(),
-            commands: vec!["help", "go"],
-            command_args: vec!["", "location"],
+            commands: vec!["help", "go [direction]"],
         }
     }
 
