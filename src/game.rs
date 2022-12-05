@@ -41,8 +41,8 @@ impl Game<'_> {
                     let input = &self.terminal.input.value();
                     self.terminal
                         .print("\n>".to_owned() + &self.terminal.input.value());
-                    let repsonse = command_processor::process_command(&input.to_string());
-                    self.terminal.print(repsonse);
+                    let response = command_processor::process_command(&input.to_string());
+                    self.terminal.print(response);
                     self.terminal.input.set_value("");
                     // Whacky number works somehow don't change!!!!!!!!!!!!!
                     self.terminal.output_window.scroll(100000, 0);
