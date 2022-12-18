@@ -8,7 +8,7 @@ mod terminal;
 use self::terminal::Terminal;
 
 pub struct Game<'a> {
-    terminal: Terminal,
+    terminal: Terminal<'a>,
     commands: Vec<&'a str>,
 }
 

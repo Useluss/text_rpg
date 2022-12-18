@@ -8,7 +8,7 @@ use fltk::{
     window::Window,
 };
 
-pub struct Terminal {
+pub struct Terminal<'a> {
     window: Window,
     pub input: Input,
     input_caret: Output,
@@ -16,13 +16,14 @@ pub struct Terminal {
     header_info: Vec<Output>,
     pub output_window: TextDisplay,
     pub output_buffer: TextBuffer,
+    pub location: &'a str
 }
 
 const HEIGHT: i32 = 450;
 const WIDTH: i32 = 900;
 
-impl Terminal {
-    pub fn new() -> Terminal {
+impl Terminal<'_> {
+    pub fn new() -> Terminal<'static> {
         let font = Font::load_font("fonts/console.ttf").unwrap();
         Font::set_font(Font::Helvetica, &font);
         Terminal {
@@ -38,6 +39,7 @@ impl Terminal {
             // The weird sizing of output_window is to get rid of scrollbar
             output_window: TextDisplay::new(0, 30, WIDTH + 2, 400, ""),
             output_buffer: TextBuffer::default(),
+            location: "location"
         }
     }
 
@@ -76,7 +78,7 @@ impl Terminal {
         self.header.set_frame(FrameType::FlatBox);
         self.header.set_color(Color::gray_scale(155));
         self.header.set_selection_color(Color::White);
-        self.header_info[0].set_value("Location");
+        self.header_info[0].set_value(Terminal::set_location(self.location));
         self.header_info[1].set_value("Moves: 0");
         self.header_info[2].set_value("Health: 100");
 
@@ -86,6 +88,10 @@ impl Terminal {
             i.set_text_size(20);
             i.set_selection_color(Color::White);
         }
+    }
+
+    pub fn set_location(location: &str) -> &str {
+        location
     }
 
     fn setup_output(&mut self) {
